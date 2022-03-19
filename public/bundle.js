@@ -2091,17 +2091,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _store_nasaPics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/nasaPics */ "./client/store/nasaPics.js");
+/* harmony import */ var _store_questions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/questions */ "./client/store/questions.js");
 
 
 
 const Home = props => {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
-  const nasaData = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.nasaPics);
+  const QuestionData = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.QuestionData);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    dispatch((0,_store_nasaPics__WEBPACK_IMPORTED_MODULE_2__.fetchAPOD)());
+    dispatch((0,_store_questions__WEBPACK_IMPORTED_MODULE_2__.fetchQuestions)());
   }, []);
-  const videoURL = nasaData.url;
+  console.log(QuestionData);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "NASA's Astronomy Picture of the Day"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "- ", nasaData.title, " -"), nasaData.media_type === 'image' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "imageContainer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
@@ -2152,21 +2152,21 @@ const history =  false ? 0 : (0,history__WEBPACK_IMPORTED_MODULE_0__.createBrows
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "fetchAPOD": () => (/* reexport safe */ _nasaPics__WEBPACK_IMPORTED_MODULE_2__.fetchAPOD)
+/* harmony export */   "fetchQuestions": () => (/* reexport safe */ _questions__WEBPACK_IMPORTED_MODULE_2__.fetchQuestions)
 /* harmony export */ });
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
-/* harmony import */ var _nasaPics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nasaPics */ "./client/store/nasaPics.js");
+/* harmony import */ var _questions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./questions */ "./client/store/questions.js");
 
 
 
 
 
 const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
-  nasaPics: _nasaPics__WEBPACK_IMPORTED_MODULE_2__["default"]
+  questions: _questions__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_3__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_4__["default"], (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
   collapsed: true
@@ -2177,39 +2177,39 @@ const store = (0,redux__WEBPACK_IMPORTED_MODULE_3__.createStore)(reducer, middle
 
 /***/ }),
 
-/***/ "./client/store/nasaPics.js":
-/*!**********************************!*\
-  !*** ./client/store/nasaPics.js ***!
-  \**********************************/
+/***/ "./client/store/questions.js":
+/*!***********************************!*\
+  !*** ./client/store/questions.js ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAPOD": () => (/* binding */ fetchAPOD),
+/* harmony export */   "fetchQuestions": () => (/* binding */ fetchQuestions),
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-const nasaApiKey = '7GG1fKttKDEIDdf7qftNYfQ14hHuV4FP9X6mXvUN'; // ACTION TYPE
+const amount = 10; // ACTION TYPE
 
-const SET_APOD = 'SET_APOD'; // ACTION CREATOR
+const SET_QUESTIONS = 'SET_QUESTIONS'; // ACTION CREATOR
 
-const setAPOD = pictureData => {
+const setQuestions = questionData => {
   return {
-    type: SET_APOD,
-    pictureData
+    type: SET_QUESTIONS,
+    questionData
   };
 }; // THUNK CREATOR
 
 
-const fetchAPOD = () => async dispatch => {
+const fetchQuestions = () => async dispatch => {
   try {
     const {
       data
-    } = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`);
-    dispatch(setAPOD(data));
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`https://opentdb.com/api.php?amount=${amount}`);
+    dispatch(setQuestions(data));
   } catch (error) {
     console.log(error);
   }
@@ -2217,8 +2217,8 @@ const fetchAPOD = () => async dispatch => {
 
 /* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(state = {}, action) {
   switch (action.type) {
-    case SET_APOD:
-      return action.pictureData;
+    case SET_QUESTIONS:
+      return action.questionData;
 
     default:
       return state;

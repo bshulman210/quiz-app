@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAPOD } from '../store/nasaPics';
+import { fetchQuestions } from '../store/questions';
 
 export const Home = (props) => {
   const dispatch = useDispatch();
-  const nasaData = useSelector((state) => state.nasaPics);
+  const QuestionData = useSelector((state) => state.QuestionData);
 
   useEffect(() => {
-    dispatch(fetchAPOD());
+    dispatch(fetchQuestions());
   }, []);
-
-  const videoURL = nasaData.url;
+  console.log(QuestionData);
 
   return (
     <div>
